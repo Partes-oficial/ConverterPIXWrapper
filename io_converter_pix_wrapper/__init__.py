@@ -2,7 +2,7 @@ bl_info = {
     "name": "ConverterPIX Wrapper for conversion & import of SCS Game Models",
     "description": "Wrapper add-on to use ConvPIX within the Blender and import SCS game models with ease.",
     "author": "Simon Lusenc (50keda)",
-    "version": (2, 2),
+    "version": (2, 3),
     "blender": (2, 81, 0),
     "location": "File > Import > SCS Models - ConverterPIX & BT (*.scs)",
     "category": "Import-Export",
@@ -14,6 +14,7 @@ import os
 import subprocess
 import shutil
 from sys import platform
+from sys import maxsize
 from tempfile import mkdtemp
 from threading import Thread
 from time import time
@@ -37,7 +38,10 @@ elif platform == "darwin":
     CONVERTER_PIX_PATH = os.path.join(CONVERTER_PIX_DIR, "converter_pix")
     LINE_SPLITTER = "\n"
 else:
-    CONVERTER_PIX_URL = "https://github.com/mwl4/ConverterPIX/raw/master/bin/win_x86/converter_pix.exe"
+    if maxsize > 2**32:
+        CONVERTER_PIX_URL = "http://github.com/mwl4/ConverterPIX/raw/master/bin/win_x64/converter_pix.exe"
+    else:
+        CONVERTER_PIX_URL = "https://github.com/mwl4/ConverterPIX/raw/master/bin/win_x86/converter_pix.exe"
     CONVERTER_PIX_PATH = os.path.join(CONVERTER_PIX_DIR, "converter_pix.exe")
     LINE_SPLITTER = "\r\n"
 
